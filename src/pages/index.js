@@ -1,17 +1,31 @@
 import * as React from 'react'
+import { graphql } from 'gatsby'
 import Layout from '../components/layout'
-import { StaticImage } from 'gatsby-plugin-image'
 
-const IndexPage = () => {
+const BlogPage = ({ data }) => {
   return (
-    <Layout pageTitle="Home Page">
-      <p>I'm making this by following the Gatsby Tutorial.</p>
-      <StaticImage
-        alt="Un chat"
-        src="../images/cat.jpg"
-      />
+    <Layout pageTitle="My Blog Posts">
+      <ul>
+      {
+        data.allFile.nodes.map(node => (
+          <li key={node.name}>
+            {node.name}
+          </li>
+        ))
+      }
+      </ul>
     </Layout>
   )
 }
 
-export default IndexPage
+export const query = graphql`
+  query {
+    allFile {
+      nodes {
+        name
+      }
+    }
+  }
+`
+
+export default BlogPage
